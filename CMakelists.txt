@@ -1,0 +1,15 @@
+# 1.) mkdir build && cd build
+# 2.) cmake ..
+# 3.) cmake --build .
+# 4.) ./NeonEngine
+
+cmake_minimum_required(VERSION 3.22)
+
+project(NeonEngine 
+        VERSION 0.0.0
+        LANGUAGES C CXX
+        )
+
+set (CMAKE_CXX_STANDARD 17)
+
+add_executable(NeonEngine main.cpp)
