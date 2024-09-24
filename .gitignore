@@ -31,6 +31,9 @@
 *.out
 *.app
 
+# Makefile swp
+*.swp
+
 # MacOS files
 # General
 .DS_Store
