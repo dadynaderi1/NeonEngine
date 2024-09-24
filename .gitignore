@@ -105,6 +105,7 @@ $RECYCLE.BIN/
 
 # Build folder
 build/
+xcode/
 
 # VSCode
 .vscode/*
