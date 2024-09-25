@@ -1,3 +1,0 @@
-set (NAME NeonEngine)
-
-add_executable(${NAME} main.cpp)
