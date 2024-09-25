@@ -5,7 +5,7 @@
 
 cmake_minimum_required(VERSION 3.22)
 
-set (NAME NeonEngine
+set (NAME NeonEngine)
 
 project(${NAME}
         VERSION 0.0.0
@@ -14,4 +14,12 @@ project(${NAME}
 
 set (CMAKE_CXX_STANDARD 17)
 
+# Find the GLFW package
+find_package(glfw3 3.3 REQUIRED)
+# Find the Vulkan package
+find_package(Vulkan REQUIRED)
+
 add_executable(${NAME} main.cpp)
+
+# Link GLFW and Vulkan to your executable
+target_link_libraries(${NAME} glfw Vulkan::Vulkan)
