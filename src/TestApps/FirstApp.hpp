@@ -1,6 +1,7 @@
 #pragma once
 
 #include "NeonEngineWindow/NEWindow.hpp"
+#include "NeonEnginePipeLine/NEPipeLine.hpp"
 
 namespace NeonEngine
 {
@@ -14,6 +15,7 @@ namespace NeonEngine
 
     private:
         NeWindow firstWindow{WIDTH, HEIGHT, "Vulkan Is Here!"};
+        NEPipeLine NeonEnginePipeLine{"src/Shaders/SampleShader.vert.spv", "src/Shaders/SampleShader.frag.spv"};
     };
 
 } // namespace NeonEngine
