@@ -31,6 +31,9 @@
 *.out
 *.app
 
+# Makefile swp
+*.swp
+
 # MacOS files
 # General
 .DS_Store
@@ -102,6 +105,7 @@ $RECYCLE.BIN/
 
 # Build folder
 build/
+xcode/
 
 # VSCode
 .vscode/*
