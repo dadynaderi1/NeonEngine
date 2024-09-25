@@ -104,11 +104,20 @@ $RECYCLE.BIN/
 *.lnk
 
 # Build folder
-build/
+[Bb]uild*/
+doc-build/
+cmake-build*/
 xcode/
+.idea/
+.cache/
 CMakeCache.txt
+CMakeLists.txt.user*
+
+# Visual Studio CMake settings
+CMakeSettings.json
 
 # VSCode
+.vs/
 .vscode/
 .vscode/*
 !.vscode/settings.json
@@ -130,3 +139,6 @@ CMakeCache.txt
 # XCode
 ## User settings
 xcuserdata/
+
+# clangd compile_commands.json
+compile_commands.json
