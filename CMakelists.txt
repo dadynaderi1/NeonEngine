@@ -19,7 +19,7 @@ find_package(glfw3 3.3 REQUIRED)
 # Find the Vulkan package
 find_package(Vulkan REQUIRED)
 
-add_executable(${NAME} main.cpp)
+add_subdirectory(src)
 
 # Link GLFW and Vulkan to your executable
 target_link_libraries(${NAME} glfw Vulkan::Vulkan)
