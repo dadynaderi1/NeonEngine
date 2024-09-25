@@ -104,6 +104,7 @@ $RECYCLE.BIN/
 *.lnk
 
 # Build folder
+bin/
 [Bb]uild*/
 doc-build/
 cmake-build*/
