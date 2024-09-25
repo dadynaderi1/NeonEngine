@@ -11,6 +11,9 @@ namespace NeonEngine
         NeWindow(int w, int h, std::string title);
         ~NeWindow();
 
+        NeWindow(const NeWindow &) = delete;
+        NeWindow &operator=(const NeWindow &) = delete;
+
         bool shouldClose() { return glfwWindowShouldClose(window); }
 
     private:
