@@ -1,22 +1,24 @@
+#pragma once
+#define GLFW_INCLUDE_VULKAN
 #include <GLFW/glfw3.h>
 #include <string>
 
-namespace NEW
+namespace NeonEngine
 {
-    class NEWindow
+    class NeWindow
     {
-        public:
-        NEWindow(int w, int h, std::string windowTitle);
-        ~NEWindow();
+    public:
+        NeWindow(int w, int h, std::string title);
+        ~NeWindow();
 
+        bool shouldClose() { return glfwWindowShouldClose(window); }
 
-        private:
-        const int WIDTH;
-        const int HEIGHT;
-        const std::string TITLE;
+    private:
+        const int height;
+        const int width;
         void initWindow();
+
+        std::string windowTitle;
         GLFWwindow *window;
-
     };
-} // namespace NEW "Neon Engine Window"
-
+} // namespace NeonEngine
