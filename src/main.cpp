@@ -3,7 +3,7 @@
 #include <stdexcept>
 #include <iostream>
 
-#include "src/FirstApp.hpp"
+#include "FirstApp.hpp"
 
 int main()
 {
@@ -18,5 +18,6 @@ int main()
         std::cerr << e.what() << '\n';
         return EXIT_FAILURE;
     }
+    std::cout << "everything is fine" << std::endl;
     return EXIT_SUCCESS;
 }
