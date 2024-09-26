@@ -5,16 +5,18 @@
 
 namespace NeonEngine
 {
-    class NeWindow
+    class NEWindow
     {
     public:
-        NeWindow(int w, int h, std::string title);
-        ~NeWindow();
+        NEWindow(int w, int h, std::string title);
+        ~NEWindow();
 
-        NeWindow(const NeWindow &) = delete;
-        NeWindow &operator=(const NeWindow &) = delete;
+        NEWindow(const NEWindow &) = delete;
+        NEWindow &operator=(const NEWindow &) = delete;
 
         bool shouldClose() { return glfwWindowShouldClose(window); }
+
+        void createWindowSurface(VkInstance instance, VkSurfaceKHR *surface);
 
     private:
         const int height;
