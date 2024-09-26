@@ -1,23 +1,47 @@
 #include "NEWindow.hpp"
-#include "NEWindow.hpp"
+
+#include <iostream>
+#include <stdexcept>
+
 namespace NeonEngine
 {
-    NeWindow::NeWindow(int w, int h, std::string title) : width{w}, height{h}, windowTitle{title}
+
+    NEWindow::NEWindow(int w, int h, const std::string &title) : width{w}, height{h}, windowTitle{title}
     {
         initWindow();
     }
-    NeWindow::~NeWindow()
+
+    NEWindow::~NEWindow()
     {
         glfwDestroyWindow(window);
         glfwTerminate();
+        std::cout << "Deconstructor called" << std::endl;
     }
 
-    void NeWindow::initWindow()
+    void NEWindow::initWindow()
     {
-        glfwInit();
+        if (!glfwInit())
+        {
+            throw std::runtime_error("Failed to initialize GLFW");
+        }
+
         glfwWindowHint(GLFW_CLIENT_API, GLFW_NO_API);
         glfwWindowHint(GLFW_RESIZABLE, GLFW_FALSE);
 
         window = glfwCreateWindow(width, height, windowTitle.c_str(), nullptr, nullptr);
+        if (!window)
+        {
+            glfwTerminate();
+            throw std::runtime_error("Failed to create window");
+        }
     }
+
+    void NEWindow::createWindowSurface(VkInstance instance, VkSurfaceKHR *surface) const
+    {
+        if (glfwCreateWindowSurface(instance, window, nullptr, surface) != VK_SUCCESS)
+        {
+            throw std::runtime_error("Failed to create (Vulkan) window surface");
+        }
+    }
+
 } // namespace NeonEngine

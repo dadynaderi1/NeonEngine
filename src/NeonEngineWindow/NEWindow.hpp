@@ -1,27 +1,63 @@
 #pragma once
+
 #define GLFW_INCLUDE_VULKAN
 #include <GLFW/glfw3.h>
 #include <string>
 
 namespace NeonEngine
 {
-    class NeWindow
+
+    /// @brief Represents a window for the application.
+    ///
+    /// This class provides methods for creating, managing, and interacting with a window.
+    class NEWindow
     {
     public:
-        NeWindow(int w, int h, std::string title);
-        ~NeWindow();
+        /// @brief Constructor.
+        ///
+        /// Creates a new `NEWindow` object with the specified dimensions and title.
+        ///
+        /// @param w The width of the window.
+        /// @param h The height of the window.
+        /// @param title The title of the window.
+        NEWindow(int w, int h, const std::string &title);
 
+<<<<<<< HEAD
         NeWindow(const NeWindow &) = delete;
         NeWindow &operator=(const NeWindow &) = delete;
 
         bool shouldClose() { return glfwWindowShouldClose(window); }
+=======
+        /// @brief Destructor.
+        ///
+        /// Destroys the window and cleans up resources.
+        ~NEWindow();
+
+        // Not copyable or movable
+        NEWindow(const NEWindow &) = delete;
+        NEWindow &operator=(const NEWindow &) = delete;
+
+        /// @brief Checks if the window should be closed.
+        ///
+        /// @return True if the window should be closed, otherwise false.
+        bool shouldClose() const { return glfwWindowShouldClose(window); }
+
+        /// @brief Creates a Vulkan surface associated with the window.
+        ///
+        /// @param instance The Vulkan instance.
+        /// @param surface Pointer to a variable where the created surface handle is stored.
+        void createWindowSurface(VkInstance instance, VkSurfaceKHR *surface) const;
+>>>>>>> Dev
 
     private:
+        /// @brief Initializes the GLFW window.
+        void initWindow();
+
         const int height;
         const int width;
-        void initWindow();
 
         std::string windowTitle;
         GLFWwindow *window;
     };
+
 } // namespace NeonEngine
