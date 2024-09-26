@@ -112,6 +112,7 @@ cmake-build*/
 xcode/
 .idea/
 .cache/
+latex/
 CMakeCache.txt
 CMakeLists.txt.user*
 
