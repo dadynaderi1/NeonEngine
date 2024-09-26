@@ -1,3 +1,4 @@
+// NEDevice.cpp
 #include "NeonEngineDevice/NEDevice.hpp"
 
 // std headers
@@ -383,14 +384,12 @@ namespace NeonEngine
       if (queueFamily.queueCount > 0 && queueFamily.queueFlags & VK_QUEUE_GRAPHICS_BIT)
       {
         indices.graphicsFamily = i;
-        indices.graphicsFamilyHasValue = true;
       }
       VkBool32 presentSupport = false;
       vkGetPhysicalDeviceSurfaceSupportKHR(device, i, surface_, &presentSupport);
       if (queueFamily.queueCount > 0 && presentSupport)
       {
         indices.presentFamily = i;
-        indices.presentFamilyHasValue = true;
       }
       if (indices.isComplete())
       {

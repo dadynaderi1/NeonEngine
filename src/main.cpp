@@ -1,23 +1,23 @@
-// std
 #include <cstdlib>
 #include <stdexcept>
 #include <iostream>
+#include <string> // For better error messages
 
 #include "FirstApp.hpp"
 
 int main()
 {
-    NeonEngine::FirstApp app{};
-
     try
     {
+        NeonEngine::FirstApp app;
         app.run();
     }
     catch (const std::exception &e)
     {
-        std::cerr << e.what() << '\n';
+        std::cerr << "An application error occurred: " << e.what() << std::endl;
         return EXIT_FAILURE;
     }
-    std::cout << "everything is fine" << std::endl;
+
+    std::cout << "Application finished successfully." << std::endl;
     return EXIT_SUCCESS;
 }

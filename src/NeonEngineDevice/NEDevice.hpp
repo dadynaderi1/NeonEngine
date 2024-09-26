@@ -5,10 +5,12 @@
 // std lib headers
 #include <string>
 #include <vector>
+#include <optional> // For optional values
 
 namespace NeonEngine
 {
 
+  /// @brief Details about the swap chain support for a physical device.
   struct SwapChainSupportDetails
   {
     VkSurfaceCapabilitiesKHR capabilities;
@@ -16,15 +18,23 @@ namespace NeonEngine
     std::vector<VkPresentModeKHR> presentModes;
   };
 
+  /// @brief Indices of the graphics and present queue families.
   struct QueueFamilyIndices
   {
     uint32_t graphicsFamily;
     uint32_t presentFamily;
-    bool graphicsFamilyHasValue = false;
-    bool presentFamilyHasValue = false;
-    bool isComplete() { return graphicsFamilyHasValue && presentFamilyHasValue; }
+
+    /// @brief Checks if both graphics and present queue families are valid.
+    ///
+    /// @return True if both graphicsFamily and presentFamily are not `VK_QUEUE_FAMILY_IGNORED`, otherwise false.
+    bool isComplete() const { return graphicsFamily != VK_QUEUE_FAMILY_IGNORED && presentFamily != VK_QUEUE_FAMILY_IGNORED; }
   };
 
+  /// @class NEDevice
+  ///
+  /// Represents a Vulkan device object.
+  ///
+  /// This class provides methods for creating and managing a Vulkan device, including instance creation, device selection, queue family management, and resource allocation.
   class NEDevice
   {
   public:
@@ -34,8 +44,16 @@ namespace NeonEngine
     const bool enableValidationLayers = true;
 #endif
 
+    /// @brief Constructor.
+    ///
+    /// Initializes a new `NEDevice` object.
+    ///
+    /// @param window Reference to a `NEWindow` object representing the window the application will render to.
     NEDevice(NEWindow &window);
 
+    /// @brief Destructor.
+    ///
+    /// Cleans up resources associated with the device.
     ~NEDevice();
 
     // Not copyable or movable
@@ -44,15 +62,56 @@ namespace NeonEngine
     NEDevice(NEDevice &&) = delete;
     NEDevice &operator=(NEDevice &&) = delete;
 
+    /// @brief Gets the command pool associated with this device.
+    ///
+    /// @return The command pool.
     VkCommandPool getCommandPool() { return commandPool; }
+
+    /// @brief Gets the Vulkan device handle.
+    ///
+    /// @return The Vulkan device handle.
     VkDevice device() { return device_; }
+
+    /// @brief Gets the Vulkan surface associated with this device.
+    ///
+    /// @return The Vulkan surface handle.
     VkSurfaceKHR surface() { return surface_; }
+
+    /// @brief Gets the graphics queue associated with this device.
+    ///
+    /// @return The graphics queue handle.
     VkQueue graphicsQueue() { return graphicsQueue_; }
+
+    /// @brief Gets the present queue associated with this device.
+    ///
+    /// @return The present queue handle.
     VkQueue presentQueue() { return presentQueue_; }
 
+    /// @brief Queries the swap chain support details for the physical device.
+    ///
+    /// @param physicalDevice The physical device to query.
+    /// @return The swap chain support details.
     SwapChainSupportDetails getSwapChainSupport() { return querySwapChainSupport(physicalDevice); }
+
+    /// @brief Finds a memory type that meets the specified requirements.
+    ///
+    /// @param typeFilter The memory type filter.
+    /// @param properties The desired memory properties.
+    /// @return The index of the memory type.
     uint32_t findMemoryType(uint32_t typeFilter, VkMemoryPropertyFlags properties);
+
+    /// @brief Finds the queue families for the given physical device.
+    ///
+    /// @param physicalDevice The physical device to query.
+    /// @return The queue family indices.
     QueueFamilyIndices findPhysicalQueueFamilies() { return findQueueFamilies(physicalDevice); }
+
+    /// @brief Finds a supported format for an image.
+    ///
+    /// @param candidates The list of candidate formats.
+    /// @param tiling The image tiling mode.
+    /// @param features The required format features.
+    /// @return The supported format.
     VkFormat findSupportedFormat(
         const std::vector<VkFormat> &candidates, VkImageTiling tiling, VkFormatFeatureFlags features);
 
@@ -110,4 +169,4 @@ namespace NeonEngine
     const std::vector<const char *> deviceExtensions = {VK_KHR_SWAPCHAIN_EXTENSION_NAME};
   };
 
-} // namespace lve
+} // namespace NeonEngine
