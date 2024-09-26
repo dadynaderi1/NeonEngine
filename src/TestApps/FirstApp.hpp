@@ -2,7 +2,7 @@
 
 #include "NeonEngineWindow/NEWindow.hpp"
 #include "NeonEnginePipeLine/NEPipeLine.hpp"
-
+#include "NeonEngineDevice/NEDevice.hpp"
 namespace NeonEngine
 {
     class FirstApp
@@ -14,8 +14,9 @@ namespace NeonEngine
         void run();
 
     private:
-        NeWindow firstWindow{WIDTH, HEIGHT, "Vulkan Is Here!"};
-        NEPipeLine NeonEnginePipeLine{"src/Shaders/SampleShader.vert.spv", "src/Shaders/SampleShader.frag.spv"};
+        NEWindow firstWindow{WIDTH, HEIGHT, "Vulkan Is Here!"};
+        NEDevice neDevice{firstWindow};
+        NEPipeLine NeonEnginePipeLine{neDevice, "src/Shaders/SampleShader.vert.spv", "src/Shaders/SampleShader.frag.spv", NEPipeLine::defaultPipeLineConfigInfo(WIDTH, HEIGHT)};
     };
 
 } // namespace NeonEngine
