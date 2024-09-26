@@ -14,5 +14,5 @@ jobs:
     steps:
 
     - name: Install dependencies
-      run: make
+      run: ./make.sh
 
