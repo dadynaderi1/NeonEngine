@@ -4,9 +4,10 @@ set -e  # Exit immediately if a command exits with a non-zero status
 set -u  # Treat unset variables as an error when substituting
 set -o pipefail  # Consider failures in pipes
 
-# Function to check and install dependencies
-check_and_install() {
-    for package in "$@"; do
+# Function to check and install dependencies for apt-based distros
+install_apt_dependencies() {
+    local dependencies=("$@")
+    for package in "${dependencies[@]}"; do
         if ! command -v "$package" &> /dev/null; then
             echo "🔍 $package is not installed. Installing..."
             if sudo apt-get install -y "$package"; then
@@ -21,9 +22,40 @@ check_and_install() {
     done
 }
 
-# Check for required dependencies
-DEPENDENCIES=(glslc cmake ninja-build vulkan-tools libglfw3-dev libglm-dev)
-check_and_install "${DEPENDENCIES[@]}"
+# Function to check and install dependencies for macOS
+install_brew_dependencies() {
+    local dependencies=("$@")
+    for package in "${dependencies[@]}"; do
+        if ! command -v "$package" &> /dev/null; then
+            echo "🔍 $package is not installed. Installing..."
+            if brew install "$package"; then
+                echo "✅ $package installed successfully."
+            else
+                echo "❌ Failed to install $package. Please check your package manager."
+                exit 1
+            fi
+        else
+            echo "✅ $package is already installed."
+        fi
+    done
+}
+
+# Determine OS and install dependencies
+if [[ "$OSTYPE" == "linux-gnu"* ]]; then
+    DEPENDENCIES=(glslc cmake ninja-build vulkan-tools libglfw3-dev libglm-dev)
+    install_apt_dependencies "${DEPENDENCIES[@]}"
+elif [[ "$OSTYPE" == "darwin"* ]]; then
+    # Check if Homebrew is installed
+    if ! command -v brew &> /dev/null; then
+        echo "❌ Homebrew is not installed. Please install Homebrew first: https://brew.sh"
+        exit 1
+    fi
+    DEPENDENCIES=(glslang-tools cmake ninja vulkan-tools glfw glm)
+    install_brew_dependencies "${DEPENDENCIES[@]}"
+else
+    echo "❌ Unsupported OS: $OSTYPE"
+    exit 1
+fi
 
 # Ensure compile.sh is executable
 if [ ! -x compile.sh ]; then
