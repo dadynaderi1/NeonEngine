@@ -100,6 +100,11 @@ namespace NeonEngine
     {
 
         PipeLineConfigInfo configInfo{};
+        configInfo.inputAssemblyInfo.sType = VK_STRUCTURE_TYPE_PIPELINE_INPUT_ASSEMBLY_STATE_CREATE_INFO;
+
+        // telling input assembler that every 3 vertecies should be interpreted as a triangle
+        configInfo.inputAssemblyInfo.topology = VK_PRIMITIVE_TOPOLOGY_TRIANGLE_LIST;
+        configInfo.inputAssemblyInfo.primitiveRestartEnable = VK_FALSE;
 
         return configInfo;
     }

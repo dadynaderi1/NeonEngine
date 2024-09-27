@@ -16,6 +16,7 @@ namespace NeonEngine
     /// This structure holds configuration options that can be used to customize the pipeline creation process.
     struct PipeLineConfigInfo
     {
+        VkPipelineInputAssemblyStateCreateInfo inputAssemblyInfo;
         // Add specific fields here based on your pipeline requirements
         // Example:
         // uint32_t width;
