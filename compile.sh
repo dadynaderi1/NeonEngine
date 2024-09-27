@@ -1,8 +1,3 @@
-<<<<<<< HEAD
-/usr/bin/glslc src/Shaders/SampleShader.vert -o src/Shaders/SampleShader.vert.spv
-/usr/bin/glslc src/Shaders/SampleShader.frag -o src/Shaders/SampleShader.frag.spv
-
-=======
 #!/bin/bash
 
 echo "🚀 Starting the shader compilation process! Get ready to rock! 🎸"
@@ -32,4 +27,3 @@ for shader in src/Shaders/*.frag; do
 done
 
 echo "🎉 All shaders compiled! Time to unleash your creativity! 🎆"
->>>>>>> Dev

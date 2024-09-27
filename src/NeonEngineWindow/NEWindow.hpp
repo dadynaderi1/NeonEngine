@@ -22,12 +22,6 @@ namespace NeonEngine
         /// @param title The title of the window.
         NEWindow(int w, int h, const std::string &title);
 
-<<<<<<< HEAD
-        NeWindow(const NeWindow &) = delete;
-        NeWindow &operator=(const NeWindow &) = delete;
-
-        bool shouldClose() { return glfwWindowShouldClose(window); }
-=======
         /// @brief Destructor.
         ///
         /// Destroys the window and cleans up resources.
@@ -47,7 +41,6 @@ namespace NeonEngine
         /// @param instance The Vulkan instance.
         /// @param surface Pointer to a variable where the created surface handle is stored.
         void createWindowSurface(VkInstance instance, VkSurfaceKHR *surface) const;
->>>>>>> Dev
 
     private:
         /// @brief Initializes the GLFW window.
