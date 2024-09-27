@@ -15,11 +15,11 @@ jobs:
         uses: actions/checkout@v2
 
       - name: Set up CMake
-        run: sudo apt-get install -y cmake ninja-build
+        run: sudo apt install -y cmake ninja-build
 
       - name: Install Dependencies
         run: |
-          sudo apt-get install -y glslc libglfw3-dev libglm-dev
+          sudo apt install -y vulkan-tools libvulkan-dev vulkan-validationlayers-dev spirv-tools glslc libglfw3-dev libglm-dev
 
       - name: Build Project
         run: |
