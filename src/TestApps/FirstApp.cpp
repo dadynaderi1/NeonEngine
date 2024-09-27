@@ -1,5 +1,5 @@
 // FirstApp.cpp
-#include "./TestApps/FirstApp.hpp"
+#include "TestApps/FirstApp.hpp"
 
 void NeonEngine::FirstApp::run()
 {
