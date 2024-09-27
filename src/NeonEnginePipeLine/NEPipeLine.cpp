@@ -1,7 +1,5 @@
 // NEPipeline.cpp
 
-#pragma once
-
 #include "NEPipeLine.hpp"
 
 // std

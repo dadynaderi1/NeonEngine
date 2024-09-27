@@ -3,8 +3,10 @@
 
 void NeonEngine::FirstApp::run()
 {
+    printWorkingDirectory();
     while (!firstWindow.shouldClose())
     {
+
         glfwPollEvents();
     }
 }

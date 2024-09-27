@@ -1,19 +1,27 @@
 cmake_minimum_required(VERSION 3.10)
-
-# Project name
 project(NeonEngine LANGUAGES CXX)
 
-# Set the C++ standard
+# Set C++ standard
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
-set(CMAKE_CXX_EXTENSIONS OFF)
 
-# Use the Ninja generator if available
-if(NOT CMAKE_GENERATOR MATCHES "Ninja")
-    message(WARNING "Consider using the Ninja generator for faster builds.")
-endif()
+# Set output directories for different build types
+set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/lib/${CMAKE_BUILD_TYPE})
+set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/lib/${CMAKE_BUILD_TYPE})
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/bin/${CMAKE_BUILD_TYPE})
 
-# Include directories
+# Set the option to build shared libraries
+set(BUILD_SHARED_LIBS ON)
+
+# Find packages
+find_package(Vulkan REQUIRED)
+find_package(glfw3 REQUIRED CONFIG)
+find_package(glm REQUIRED)
+
+# Include directories for GLM (header-only)
+include_directories(${GLM_INCLUDE_DIRS})
+
+# Include directories for the project's source files
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/src)
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/src/TestApps)
 
@@ -26,31 +34,11 @@ set(SOURCE_FILES
     src/TestApps/FirstApp.cpp
 )
 
-# Header files (for IDEs)
-set(HEADER_FILES
-    src/NeonEngineDevice/NEDevice.hpp
-    src/NeonEnginePipeLine/NEPipeLine.hpp
-    src/NeonEngineWindow/NEWindow.hpp
-    src/TestApps/FirstApp.hpp
-)
-
 # Add executable
-add_executable(NeonEngine ${SOURCE_FILES} ${HEADER_FILES})
-
-# Find Vulkan package
-find_package(Vulkan REQUIRED)
+add_executable(NeonEngine ${SOURCE_FILES})
 
 # Link libraries
-target_link_libraries(NeonEngine
-    glfw
-    Vulkan::Vulkan  # Link against Vulkan
-    dl
-    pthread
-    X11
-    Xxf86vm
-    Xrandr
-    Xi
-)
+target_link_libraries(NeonEngine PRIVATE glfw Vulkan::Vulkan)
 
 # Shader files
 set(SPIRV_FILES
@@ -58,19 +46,19 @@ set(SPIRV_FILES
     ${CMAKE_CURRENT_SOURCE_DIR}/src/Shaders/SampleShader.vert.spv
 )
 
-# Copy .spv files to the executable directory
+# Ensure shaders directory exists
+file(MAKE_DIRECTORY ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/shaders)
+
+# Copy .spv files to the shaders directory next to the binary
 foreach(SPIRV_FILE ${SPIRV_FILES})
     get_filename_component(SPIRV_NAME ${SPIRV_FILE} NAME)
     
     add_custom_command(
         TARGET NeonEngine POST_BUILD
-        COMMAND ${CMAKE_COMMAND} -E copy ${SPIRV_FILE} $<TARGET_FILE_DIR:NeonEngine>/${SPIRV_NAME}
-        COMMENT "Copying shader ${SPIRV_NAME} to executable directory"
+        COMMAND ${CMAKE_COMMAND} -E copy ${SPIRV_FILE} ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/shaders/${SPIRV_NAME}
+        COMMENT "Copying shader ${SPIRV_NAME} to shaders directory"
     )
 endforeach()
-
-# Installation (optional)
-install(TARGETS NeonEngine DESTINATION bin)
 
 # Add a custom target for documentation generation
 add_custom_target(doc
@@ -78,3 +66,13 @@ add_custom_target(doc
     WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
     COMMENT "Generating documentation with Doxygen"
 )
+
+# Optional: Set compiler options based on build type
+if(CMAKE_BUILD_TYPE STREQUAL "Debug")
+    target_compile_options(NeonEngine PRIVATE -DDEBUG)
+endif()
+
+# Create Visual Studio solution if on Windows
+if(WIN32)
+    set(CMAKE_GENERATOR "Visual Studio 16 2019")  # Specify the version you want to use
+endif()

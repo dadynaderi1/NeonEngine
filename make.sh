@@ -40,12 +40,30 @@ install_brew_dependencies() {
     done
 }
 
+# Clean build option
+if [[ "${1:-}" == "clean" ]]; then
+    echo "🧹 Cleaning previous builds..."
+    rm -rf build
+    rm -rf bin
+    rm -rf lib
+    echo "✅ Cleaned build, bin, and lib directories."
+    exit 0
+fi
+
+# Clone Git submodules if not already cloned
+echo "🔄 Checking out submodules..."
+if [ ! -d "external/glfw" ] || [ ! -d "external/glm" ]; then
+    git submodule update --init --recursive
+    echo "✅ Submodules checked out successfully."
+else
+    echo "✅ Submodules already cloned."
+fi
+
 # Determine OS and install dependencies
 if [[ "$OSTYPE" == "linux-gnu"* ]]; then
     DEPENDENCIES=(glslc cmake ninja-build vulkan-tools libglfw3-dev libglm-dev)
     install_apt_dependencies "${DEPENDENCIES[@]}"
 elif [[ "$OSTYPE" == "darwin"* ]]; then
-    # Check if Homebrew is installed
     if ! command -v brew &> /dev/null; then
         echo "❌ Homebrew is not installed. Please install Homebrew first: https://brew.sh"
         exit 1
@@ -88,9 +106,9 @@ echo "🚀 Building the project with Ninja..."
 ninja
 
 # Optionally run the executable if the build was successful
-if [ -f "./NeonEngine" ]; then
+if [ -f "../bin/NeonEngine" ]; then
     echo "🚀 Running the NeonEngine executable..."
-    ./NeonEngine
+    ../bin/NeonEngine
 else
     echo "❌ NeonEngine executable not found. Build may have failed."
     exit 1

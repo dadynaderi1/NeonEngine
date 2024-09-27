@@ -3,7 +3,7 @@
 #include <iostream>
 #include <string> // For better error messages
 
-#include "FirstApp.hpp"
+#include "TestApps/FirstApp.hpp"
 
 int main()
 {

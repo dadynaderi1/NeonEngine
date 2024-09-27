@@ -1,5 +1,7 @@
 #pragma once
 
+#include <iostream>
+#include <filesystem>
 #include "NeonEngineWindow/NEWindow.hpp"
 #include "NeonEnginePipeLine/NEPipeLine.hpp"
 #include "NeonEngineDevice/NEDevice.hpp"
@@ -21,9 +23,15 @@ namespace NeonEngine
 
         // Consider using a unique identifier for the pipeline instead of hardcoded filenames
         NEPipeLine pipeline{neDevice,
-                            "SampleShader.vert.spv",
-                            "SampleShader.frag.spv",
+                            "../bin/shaders/SampleShader.vert.spv",
+                            "../bin/shaders/SampleShader.frag.spv",
                             NEPipeLine::defaultPipeLineConfigInfo(WIDTH, HEIGHT)};
+
+        void printWorkingDirectory()
+        {
+            std::cout << "Current working directory: "
+                      << std::filesystem::current_path().string() << std::endl;
+        }
     };
 
 } // namespace NeonEngine
