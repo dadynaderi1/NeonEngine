@@ -19,7 +19,7 @@ jobs:
 
       - name: Install Dependencies
         run: |
-          sudo apt install -y vulkan-tools libvulkan-dev vulkan-validationlayers-dev spirv-tools glslc libglfw3-dev libglm-dev
+          sudo apt install -y vulkan-tools libvulkan-dev vulkan-validationlayers-dev spirv-tools libglfw3-dev libglm-dev
 
       - name: Build Project
         run: |
