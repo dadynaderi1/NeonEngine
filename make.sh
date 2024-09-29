@@ -50,7 +50,7 @@ elif [[ "$OSTYPE" == "darwin"* ]]; then
         echo "❌ Homebrew is not installed. Please install Homebrew first: https://brew.sh"
         exit 1
     fi
-    DEPENDENCIES=(glslang-tools cmake ninja vulkan-tools glfw glm)
+    DEPENDENCIES=(glslang cmake ninja vulkan-tools glfw glm)
     install_brew_dependencies "${DEPENDENCIES[@]}"
 else
     echo "❌ Unsupported OS: $OSTYPE"
