@@ -46,6 +46,7 @@ namespace NeonEngine
         /// @brief Initializes the GLFW window.
         void initWindow();
 
+        // TODO: change int to uint32_t
         const int height;
         const int width;
 
